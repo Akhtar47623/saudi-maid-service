@@ -240,7 +240,7 @@ export function LandingPage({ c }: { c: Content }) {
           <h2 className="sr-only">{c.trust.heading}</h2>
           <ul className="grid grid-cols-2 gap-4 sm:grid-cols-4">
             {c.trust.items.map((item, i) => {
-              const Icon = trustIcons[i % trustIcons.length];
+              const Icon = trustIcons[i % trustIcons.length]!;
               return (
                 <li key={item} className="flex items-start gap-2.5">
                   <Icon className="mt-0.5 h-5 w-5 shrink-0 text-primary" aria-hidden />
@@ -297,7 +297,7 @@ export function LandingPage({ c }: { c: Content }) {
             <p className="mt-1 text-sm text-muted-foreground">{c.booking.note}</p>
             <ul className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
               {c.booking.items.map((b, i) => {
-                const Icon = bookingIcons[i];
+                const Icon = bookingIcons[i]!;
                 return (
                   <li
                     key={b.title}

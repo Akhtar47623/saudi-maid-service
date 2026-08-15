@@ -1,24 +1,73 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { LandingPage } from "@/components/landing/LandingPage";
+import { en, PHONE_DISPLAY } from "@/lib/site-content";
 
-// No head() here: the home route inherits title/description/og/twitter from
-// __root.tsx, and ships no og:image so serve-time hosting can inject the
-// project's social preview (explicit og:image or latest screenshot).
 export const Route = createFileRoute("/")({
-  component: Index,
+  head: () => ({
+    meta: [
+      { title: en.seo.title },
+      { name: "description", content: en.seo.description },
+      { property: "og:title", content: en.seo.ogTitle },
+      { property: "og:description", content: en.seo.ogDescription },
+      { property: "og:type", content: "website" },
+      { property: "og:locale", content: "en" },
+      { property: "og:url", content: "/" },
+      { name: "twitter:card", content: "summary_large_image" },
+    ],
+    links: [
+      { rel: "canonical", href: "/" },
+      { rel: "alternate", hrefLang: "en", href: "/" },
+      { rel: "alternate", hrefLang: "ar", href: "/ar" },
+      { rel: "alternate", hrefLang: "x-default", href: "/" },
+    ],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "HomeAndConstructionBusiness",
+          name: en.brand,
+          description: en.seo.ogDescription,
+          telephone: "+966570567188",
+          areaServed: { "@type": "City", name: "Riyadh" },
+          address: {
+            "@type": "PostalAddress",
+            addressLocality: "Riyadh",
+            addressCountry: "SA",
+          },
+          openingHoursSpecification: {
+            "@type": "OpeningHoursSpecification",
+            dayOfWeek: [
+              "Monday",
+              "Tuesday",
+              "Wednesday",
+              "Thursday",
+              "Friday",
+              "Saturday",
+              "Sunday",
+            ],
+            opens: "00:00",
+            closes: "23:59",
+          },
+          makesOffer: en.services.items.map((s) => ({
+            "@type": "Offer",
+            itemOffered: { "@type": "Service", name: s.title },
+          })),
+        }),
+      },
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          mainEntity: en.faq.items.map((f) => ({
+            "@type": "Question",
+            name: f.q,
+            acceptedAnswer: { "@type": "Answer", text: f.a.replace("{phone}", PHONE_DISPLAY) },
+          })),
+        }),
+      },
+    ],
+  }),
+  component: () => <LandingPage c={en} />,
 });
-
-// IMPORTANT: Replace this placeholder. See ./README.md for routing conventions.
-function Index() {
-  return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
-    >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
-      />
-    </div>
-  );
-}

@@ -258,17 +258,28 @@ export function LandingPage({ c }: { c: Content }) {
                 <Phone className="h-5 w-5" aria-hidden />
                 <span dir="ltr">{c.hero.primary}</span>
               </CallLink>
+              <a
+                id="whatsapp-button"
+                href={waHref}
+                target="_blank"
+                rel="noopener noreferrer"
+                data-conversion="whatsapp"
+                className="inline-flex items-center justify-center gap-2 rounded-xl bg-whatsapp px-6 py-4 text-base font-extrabold text-primary-foreground shadow-[var(--shadow-soft)] transition hover:brightness-95 sm:hidden"
+              >
+                <MessageCircle className="h-5 w-5" aria-hidden />
+                {c.banner.whatsapp}
+              </a>
               <a href="#contact" className={btnSecondary}>
                 {c.hero.secondary}
               </a>
             </div>
             <a
-              id="whatsapp-button"
+              id="whatsapp-button-desktop"
               href={waHref}
               target="_blank"
               rel="noopener noreferrer"
               data-conversion="whatsapp"
-              className="mt-3 inline-flex items-center gap-2 text-sm font-bold text-whatsapp underline-offset-4 hover:underline"
+              className="mt-3 hidden items-center gap-2 text-sm font-bold text-whatsapp underline-offset-4 hover:underline sm:inline-flex"
             >
               <MessageCircle className="h-5 w-5" aria-hidden />
               {c.banner.whatsapp}

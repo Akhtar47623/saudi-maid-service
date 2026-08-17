@@ -1,6 +1,17 @@
 export const PHONE_DISPLAY = "0570567188";
 export const PHONE_TEL = "tel:+966570567188";
-export const WHATSAPP_URL = "https://wa.me/966570567188";
+export const WHATSAPP_NUMBER = "966570567188";
+export const WHATSAPP_URL = `https://wa.me/${WHATSAPP_NUMBER}`;
+
+/** Real WhatsApp chat deep link with a prefilled first message (no chat widget). */
+export function whatsappLink(lang: "en" | "ar", extra?: string) {
+  const base =
+    lang === "ar"
+      ? "السلام عليكم، أرغب في الاستفسار عن خدمات العمالة المنزلية في الرياض."
+      : "Hello, I would like to ask about your maid & home care services in Riyadh.";
+  const text = extra ? `${base}\n${extra}` : base;
+  return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`;
+}
 
 export type Lang = "en" | "ar";
 

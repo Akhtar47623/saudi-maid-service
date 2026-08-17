@@ -73,6 +73,7 @@ function CallLink({
 export function LandingPage({ c }: { c: Content }) {
   const [scrolled, setScrolled] = useState(false);
   const otherPath = c.lang === "en" ? "/ar" : "/";
+  const waHref = whatsappLink(c.lang);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);

@@ -20,7 +20,7 @@ import { LeadForm } from "./LeadForm";
 import {
   PHONE_DISPLAY,
   PHONE_TEL,
-  WHATSAPP_URL,
+  whatsappLink,
   type Content,
   type ServiceKey,
 } from "@/lib/site-content";
@@ -73,6 +73,7 @@ function CallLink({
 export function LandingPage({ c }: { c: Content }) {
   const [scrolled, setScrolled] = useState(false);
   const otherPath = c.lang === "en" ? "/ar" : "/";
+  const waHref = whatsappLink(c.lang);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
@@ -105,7 +106,7 @@ export function LandingPage({ c }: { c: Content }) {
             </CallLink>
             <a
               id="banner-whatsapp"
-              href={WHATSAPP_URL}
+              href={waHref}
               target="_blank"
               rel="noopener noreferrer"
               data-conversion="whatsapp"
@@ -210,7 +211,7 @@ export function LandingPage({ c }: { c: Content }) {
             </div>
             <a
               id="whatsapp-button"
-              href={WHATSAPP_URL}
+              href={waHref}
               target="_blank"
               rel="noopener noreferrer"
               data-conversion="whatsapp"
@@ -486,7 +487,7 @@ export function LandingPage({ c }: { c: Content }) {
               <li>
                 <a
                   id="whatsapp-button-footer"
-                  href={WHATSAPP_URL}
+                  href={waHref}
                   target="_blank"
                   rel="noopener noreferrer"
                   data-conversion="whatsapp"
@@ -526,7 +527,7 @@ export function LandingPage({ c }: { c: Content }) {
         </CallLink>
         <a
           id="whatsapp-button-sticky"
-          href={WHATSAPP_URL}
+          href={waHref}
           target="_blank"
           rel="noopener noreferrer"
           data-conversion="whatsapp"

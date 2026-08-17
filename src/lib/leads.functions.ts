@@ -17,6 +17,8 @@ const leadSchema = z.object({
 });
 
 const LEAD_INBOX = "njeerijully@gmail.com";
+// Resend sandbox sender can only deliver to the account owner until a domain is verified.
+const FALLBACK_INBOX = "waheed47623@gmail.com";
 const GATEWAY_URL = "https://connector-gateway.lovable.dev/resend";
 
 const escapeHtml = (value: string) =>
@@ -59,22 +61,30 @@ export const submitLead = createServerFn({ method: "POST" })
       </table>
     `;
 
-    const response = await fetch(`${GATEWAY_URL}/emails`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${lovableApiKey}`,
-        "X-Connection-Api-Key": resendApiKey,
-      },
-      body: JSON.stringify({
-        from: "Website Leads <onboarding@resend.dev>",
-        to: [LEAD_INBOX],
-        reply_to: undefined,
-        subject: `New quote request — ${data.name} (${data.phone})`,
-        html,
-        text: rows.map(([k, v]) => `${k}: ${v}`).join("\n"),
-      }),
-    });
+    const send = (to: string) =>
+      fetch(`${GATEWAY_URL}/emails`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${lovableApiKey}`,
+          "X-Connection-Api-Key": resendApiKey,
+        },
+        body: JSON.stringify({
+          from: "Website Leads <onboarding@resend.dev>",
+          to: [to],
+          subject: `New quote request — ${data.name} (${data.phone})`,
+          html,
+          text: rows.map(([k, v]) => `${k}: ${v}`).join("\n"),
+        }),
+      });
+
+    let response = await send(LEAD_INBOX);
+    if (response.status === 403) {
+      // Sandbox sender restriction: deliver to the account owner instead of losing the lead.
+      const restricted = await response.text();
+      console.error(`[lead] primary inbox blocked [403]: ${restricted}`);
+      response = await send(FALLBACK_INBOX);
+    }
 
     if (!response.ok) {
       const errorBody = await response.text();

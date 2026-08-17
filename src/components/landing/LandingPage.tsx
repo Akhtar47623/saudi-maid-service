@@ -5,6 +5,8 @@ import {
   CalendarDays,
   CalendarRange,
   Clock,
+  Mail,
+  Menu,
   Heart,
   Home,
   MapPin,
@@ -14,12 +16,15 @@ import {
   Sparkles,
   Timer,
   Users,
+  X,
   Zap,
 } from "lucide-react";
 import { LeadForm } from "./LeadForm";
 import {
   PHONE_DISPLAY,
   PHONE_TEL,
+  EMAIL_ADDRESS,
+  EMAIL_MAILTO,
   whatsappLink,
   type Content,
   type ServiceKey,
@@ -72,6 +77,7 @@ function CallLink({
 
 export function LandingPage({ c }: { c: Content }) {
   const [scrolled, setScrolled] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const otherPath = c.lang === "en" ? "/ar" : "/";
   const waHref = whatsappLink(c.lang);
 
@@ -88,10 +94,10 @@ export function LandingPage({ c }: { c: Content }) {
     "inline-flex items-center justify-center gap-2 rounded-xl border-2 border-primary bg-card px-6 py-4 text-base font-bold text-primary transition hover:bg-secondary sm:text-lg";
 
   return (
-    <div dir={c.dir} lang={c.htmlLang} className="min-h-screen bg-background pb-20 md:pb-0">
+    <div dir={c.dir} lang={c.htmlLang} className="min-h-screen overflow-x-clip bg-background pb-20 md:pb-0">
       {/* Announcement / quick-contact strip */}
       <div className="w-full bg-primary-dark text-primary-foreground md:sticky md:top-0 md:z-50">
-        <div className="section-x flex flex-wrap items-center justify-center gap-x-6 gap-y-1 py-2 text-sm font-medium md:justify-between">
+        <div className="section-x flex flex-wrap items-center justify-center gap-x-4 gap-y-1 py-2 text-sm font-medium md:justify-between">
           <span className="inline-flex items-center gap-2">
             <Clock className="h-4 w-4 shrink-0" aria-hidden />
             {c.banner.availability}
@@ -104,6 +110,13 @@ export function LandingPage({ c }: { c: Content }) {
               <Phone className="h-4 w-4 shrink-0" aria-hidden />
               <span dir="ltr">{c.banner.call}</span>
             </CallLink>
+            <a
+              href={EMAIL_MAILTO}
+              className="hidden items-center gap-2 font-bold underline-offset-4 hover:underline sm:inline-flex"
+            >
+              <Mail className="h-4 w-4 shrink-0" aria-hidden />
+              <span dir="ltr">{EMAIL_ADDRESS}</span>
+            </a>
             <a
               id="banner-whatsapp"
               href={waHref}
@@ -125,12 +138,12 @@ export function LandingPage({ c }: { c: Content }) {
           scrolled ? "shadow-[var(--shadow-soft)]" : ""
         }`}
       >
-        <div className="section-x flex items-center justify-between gap-3 py-3">
-          <a href="#top" className="flex items-center gap-2">
+        <div className="section-x flex min-w-0 items-center justify-between gap-3 py-3">
+          <a href="#top" className="flex min-w-0 items-center gap-2">
             <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-primary text-primary-foreground">
               <Sparkles className="h-5 w-5" aria-hidden />
             </span>
-            <span className="text-base font-extrabold tracking-tight text-foreground sm:text-lg">
+            <span className="truncate text-base font-extrabold tracking-tight text-foreground sm:text-lg">
               {c.brand}
             </span>
           </a>
@@ -153,7 +166,7 @@ export function LandingPage({ c }: { c: Content }) {
             </a>
           </nav>
 
-          <div className="flex items-center gap-2">
+          <div className="flex shrink-0 items-center gap-2">
             <div
               className="flex items-center overflow-hidden rounded-lg border border-border text-xs font-bold"
               aria-label={c.switcher.label}
@@ -180,8 +193,48 @@ export function LandingPage({ c }: { c: Content }) {
               <Phone className="h-4 w-4" aria-hidden />
               <span dir="ltr">{PHONE_DISPLAY}</span>
             </CallLink>
+            <button
+              type="button"
+              aria-expanded={mobileMenuOpen}
+              aria-controls="mobile-navigation"
+              aria-label={mobileMenuOpen ? "Close navigation menu" : "Open navigation menu"}
+              onClick={() => setMobileMenuOpen((open) => !open)}
+              className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-border text-foreground transition hover:bg-secondary lg:hidden"
+            >
+              {mobileMenuOpen ? <X className="h-5 w-5" aria-hidden /> : <Menu className="h-5 w-5" aria-hidden />}
+            </button>
           </div>
         </div>
+        <nav
+          id="mobile-navigation"
+          aria-label={c.nav.services}
+          className={`${mobileMenuOpen ? "grid" : "hidden"} border-t border-border bg-background px-4 py-3 lg:hidden`}
+        >
+          <div className="section-x grid gap-1 px-0 text-sm font-semibold text-foreground">
+            {[
+              ["#services", c.nav.services],
+              ["#why", c.nav.why],
+              ["#faq", c.nav.faq],
+              ["#contact", c.nav.contact],
+            ].map(([href, label]) => (
+              <a
+                key={href}
+                href={href}
+                onClick={() => setMobileMenuOpen(false)}
+                className="rounded-lg px-3 py-2.5 hover:bg-secondary hover:text-primary"
+              >
+                {label}
+              </a>
+            ))}
+            <a
+              href={EMAIL_MAILTO}
+              className="inline-flex items-center gap-2 rounded-lg px-3 py-2.5 hover:bg-secondary hover:text-primary"
+            >
+              <Mail className="h-4 w-4 shrink-0" aria-hidden />
+              <span dir="ltr">{EMAIL_ADDRESS}</span>
+            </a>
+          </div>
+        </nav>
       </header>
 
       {/* Hero */}
@@ -384,7 +437,7 @@ export function LandingPage({ c }: { c: Content }) {
       {/* Lead form */}
       <section id="contact" className="py-14 sm:py-20">
         <div className="section-x grid gap-8 lg:grid-cols-[1fr_1.1fr]">
-          <div>
+          <div className="min-w-0">
             <h2 className="text-2xl font-extrabold tracking-tight text-foreground sm:text-3xl">
               {c.form.heading}
             </h2>
@@ -393,6 +446,30 @@ export function LandingPage({ c }: { c: Content }) {
               <Clock className="h-5 w-5" aria-hidden />
               {c.hero.availability}
             </p>
+            <ul className="mt-6 space-y-4 text-sm text-foreground sm:text-base">
+              <li className="flex items-start gap-3">
+                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary">
+                  <MapPin className="h-5 w-5" aria-hidden />
+                </span>
+                <span className="pt-2 font-semibold">{c.footer.location}</span>
+              </li>
+              <li>
+                <CallLink className="flex items-start gap-3 hover:text-primary">
+                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary">
+                    <Phone className="h-5 w-5" aria-hidden />
+                  </span>
+                  <span className="pt-2 font-semibold" dir="ltr">{PHONE_DISPLAY}</span>
+                </CallLink>
+              </li>
+              <li>
+                <a href={EMAIL_MAILTO} className="flex min-w-0 items-start gap-3 hover:text-primary">
+                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary">
+                    <Mail className="h-5 w-5" aria-hidden />
+                  </span>
+                  <span className="min-w-0 break-all pt-2 font-semibold" dir="ltr">{EMAIL_ADDRESS}</span>
+                </a>
+              </li>
+            </ul>
           </div>
           <LeadForm c={c} />
         </div>
@@ -483,6 +560,15 @@ export function LandingPage({ c }: { c: Content }) {
                   <Phone className="h-4 w-4" aria-hidden />
                   <span dir="ltr">{PHONE_DISPLAY}</span>
                 </CallLink>
+              </li>
+              <li>
+                <a
+                  href={EMAIL_MAILTO}
+                  className="inline-flex items-center gap-2 break-all font-bold underline-offset-4 hover:underline"
+                >
+                  <Mail className="h-4 w-4 shrink-0" aria-hidden />
+                  <span dir="ltr">{EMAIL_ADDRESS}</span>
+                </a>
               </li>
               <li>
                 <a

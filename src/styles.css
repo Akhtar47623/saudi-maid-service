@@ -93,6 +93,7 @@
   html {
     scroll-behavior: smooth;
     scroll-padding-top: 7rem;
+    overflow-x: clip;
   }
 
   body {
@@ -100,6 +101,7 @@
     color: var(--color-foreground);
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
   }
 
   [dir="rtl"] body,

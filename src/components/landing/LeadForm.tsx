@@ -1,7 +1,5 @@
 import { useState } from "react";
 import { CheckCircle2, Phone, Send } from "lucide-react";
-import { useServerFn } from "@tanstack/react-start";
-import { submitLead } from "@/lib/leads.functions";
 import {
   bookingBasisOptions,
   PHONE_DISPLAY,
@@ -12,7 +10,6 @@ import {
 type Errors = Partial<Record<"name" | "phone" | "service" | "basis" | "form", string>>;
 
 export function LeadForm({ c }: { c: Content }) {
-  const send = useServerFn(submitLead);
   const [values, setValues] = useState({
     name: "",
     phone: "",
@@ -43,7 +40,26 @@ export function LeadForm({ c }: { c: Content }) {
     if (!validate()) return;
     setStatus("sending");
     try {
-      await send({ data: { ...values, lang: c.lang } });
+      const response = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({
+          access_key: "f57c1605-0f35-4f74-bba3-081f623e7f2e",
+          subject: "New quote request — Riyadh Home Care",
+          from_name: "Riyadh Home Care Website",
+          ...values,
+          language: c.lang === "ar" ? "Arabic" : "English",
+        }),
+      });
+      const result = await response.json();
+
+      if (!response.ok || !result.success) {
+        throw new Error(result.message || "Unable to submit form");
+      }
+
       setStatus("done");
     } catch {
       setStatus("idle");

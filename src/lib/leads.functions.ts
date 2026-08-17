@@ -17,9 +17,7 @@ const leadSchema = z.object({
 });
 
 const LEAD_INBOX = "njeerijully@gmail.com";
-// Resend sandbox sender can only deliver to the account owner until a domain is verified.
-const FALLBACK_INBOX = "waheed47623@gmail.com";
-const GATEWAY_URL = "https://connector-gateway.lovable.dev/resend";
+const RESEND_API_URL = "https://api.resend.com/emails";
 
 const escapeHtml = (value: string) =>
   value
@@ -31,12 +29,14 @@ const escapeHtml = (value: string) =>
 export const submitLead = createServerFn({ method: "POST" })
   .inputValidator((data: unknown) => leadSchema.parse(data))
   .handler(async ({ data }) => {
-    const lovableApiKey = process.env["LOVABLE_API_KEY"];
     const resendApiKey = process.env["RESEND_API_KEY"];
-    if (!lovableApiKey || !resendApiKey) {
+    if (!resendApiKey) {
       console.error("[lead] email not configured");
       throw new Error("Email service is not configured");
     }
+
+    const sender =
+      process.env["RESEND_FROM"] ?? "Riyadh Home Care <onboarding@resend.dev>";
 
     const rows: Array<[string, string]> = [
       ["Name", data.name],
@@ -61,30 +61,23 @@ export const submitLead = createServerFn({ method: "POST" })
       </table>
     `;
 
-    const send = (to: string) =>
-      fetch(`${GATEWAY_URL}/emails`, {
+    const send = () =>
+      fetch(RESEND_API_URL, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${lovableApiKey}`,
-          "X-Connection-Api-Key": resendApiKey,
+          Authorization: `Bearer ${resendApiKey}`,
         },
         body: JSON.stringify({
-          from: "Website Leads <onboarding@resend.dev>",
-          to: [to],
+          from: sender,
+          to: [LEAD_INBOX],
           subject: `New quote request — ${data.name} (${data.phone})`,
           html,
           text: rows.map(([k, v]) => `${k}: ${v}`).join("\n"),
         }),
       });
 
-    let response = await send(LEAD_INBOX);
-    if (response.status === 403) {
-      // Sandbox sender restriction: deliver to the account owner instead of losing the lead.
-      const restricted = await response.text();
-      console.error(`[lead] primary inbox blocked [403]: ${restricted}`);
-      response = await send(FALLBACK_INBOX);
-    }
+    const response = await send();
 
     if (!response.ok) {
       const errorBody = await response.text();

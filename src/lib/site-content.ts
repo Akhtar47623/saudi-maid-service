@@ -1,6 +1,6 @@
 export const PHONE_DISPLAY = "0570567188";
 export const PHONE_TEL = "tel:+966570567188";
-export const EMAIL_ADDRESS = "njeerijully@gmail.com";
+export const EMAIL_ADDRESS = "maidserviceksa@gmail.com";
 export const EMAIL_MAILTO = `mailto:${EMAIL_ADDRESS}`;
 export const WHATSAPP_NUMBER = "966570567188";
 export const WHATSAPP_URL = `https://wa.me/${WHATSAPP_NUMBER}`;

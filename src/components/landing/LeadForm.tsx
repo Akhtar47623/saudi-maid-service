@@ -1,13 +1,9 @@
 import { useState } from "react";
 import { CheckCircle2, Phone, Send } from "lucide-react";
-import {
-  bookingBasisOptions,
-  PHONE_DISPLAY,
-  PHONE_TEL,
-  type Content,
-} from "@/lib/site-content";
+import { bookingBasisOptions, PHONE_DISPLAY, PHONE_TEL, type Content } from "@/lib/site-content";
 
 type Errors = Partial<Record<"name" | "phone" | "service" | "basis" | "form", string>>;
+const WEB3FORMS_ACCESS_KEY = "b9eb9826-5368-46e0-8e9e-a430409bc9f5";
 
 export function LeadForm({ c }: { c: Content }) {
   const [values, setValues] = useState({
@@ -21,9 +17,10 @@ export function LeadForm({ c }: { c: Content }) {
   const [errors, setErrors] = useState<Errors>({});
   const [status, setStatus] = useState<"idle" | "sending" | "done">("idle");
 
-  const set = (key: keyof typeof values) => (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
-  ) => setValues((v) => ({ ...v, [key]: e.target.value }));
+  const set =
+    (key: keyof typeof values) =>
+    (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) =>
+      setValues((v) => ({ ...v, [key]: e.target.value }));
 
   const validate = () => {
     const next: Errors = {};
@@ -42,24 +39,23 @@ export function LeadForm({ c }: { c: Content }) {
     try {
       const response = await fetch("https://api.web3forms.com/submit", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          access_key: "f57c1605-0f35-4f74-bba3-081f623e7f2e",
-          subject: "New quote request — Riyadh Home Care",
-          from_name: "Riyadh Home Care Website",
-          ...values,
+          access_key: WEB3FORMS_ACCESS_KEY,
+          subject: `New quote request - ${values.name} (${values.phone})`,
+          from_name: "Riyadh Home Care",
+          name: values.name,
+          phone: values.phone,
+          service: values.service,
+          booking_basis: values.basis,
+          preferred_datetime: values.datetime,
+          message: values.message,
           language: c.lang === "ar" ? "Arabic" : "English",
+          botcheck: false,
         }),
       });
-      const result = await response.json();
-
-      if (!response.ok || !result.success) {
-        throw new Error(result.message || "Unable to submit form");
-      }
-
+      const result = (await response.json()) as { success?: boolean };
+      if (!response.ok || !result.success) throw new Error("Web3Forms submission failed");
       setStatus("done");
     } catch {
       setStatus("idle");
@@ -151,9 +147,7 @@ export function LeadForm({ c }: { c: Content }) {
               </option>
             ))}
           </select>
-          {errors.service && (
-            <p className="mt-1 text-sm text-destructive">{errors.service}</p>
-          )}
+          {errors.service && <p className="mt-1 text-sm text-destructive">{errors.service}</p>}
         </div>
         <div>
           <label className={labelCls} htmlFor="lf-basis">

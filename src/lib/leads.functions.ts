@@ -16,7 +16,7 @@ const leadSchema = z.object({
   lang: z.enum(["en", "ar"]),
 });
 
-const LEAD_INBOX = "njeerijully@gmail.com";
+const LEAD_INBOX = "maidserviceksa@gmail.com";
 const RESEND_API_URL = "https://api.resend.com/emails";
 
 const escapeHtml = (value: string) =>

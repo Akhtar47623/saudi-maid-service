@@ -13,7 +13,6 @@ import {
   MessageCircle,
   Phone,
   ShieldCheck,
-  Sparkles,
   Timer,
   Users,
   X,
@@ -139,13 +138,14 @@ export function LandingPage({ c }: { c: Content }) {
         }`}
       >
         <div className="section-x flex min-w-0 items-center justify-between gap-3 py-3">
-          <a href="#top" className="flex min-w-0 items-center gap-2">
-            <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-primary text-primary-foreground">
-              <Sparkles className="h-5 w-5" aria-hidden />
-            </span>
-            <span className="truncate text-base font-extrabold tracking-tight text-foreground sm:text-lg">
-              {c.brand}
-            </span>
+          <a href="#top" className="flex shrink-0 items-center" aria-label={c.brand}>
+            <img
+              src="/home-maid-logo.png"
+              alt={c.brand}
+              width={250}
+              height={100}
+              className="h-11 w-auto sm:h-12"
+            />
           </a>
 
           <nav
@@ -545,7 +545,15 @@ export function LandingPage({ c }: { c: Content }) {
       <footer className="bg-primary-dark py-12 text-primary-foreground">
         <div className="section-x grid gap-8 sm:grid-cols-3">
           <div>
-            <p className="text-lg font-extrabold">{c.brand}</p>
+            <a href="#top" className="inline-flex items-center" aria-label={c.brand}>
+              <img
+                src="/home-maid-logo.png"
+                alt={c.brand}
+                width={250}
+                height={100}
+                className="h-14 w-auto"
+              />
+            </a>
             <p className="mt-2 text-sm opacity-85">{c.footer.tagline}</p>
           </div>
           <div>

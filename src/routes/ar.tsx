@@ -28,7 +28,7 @@ export const Route = createFileRoute("/ar")({
           "@type": "HomeAndConstructionBusiness",
           name: ar.brand,
           description: ar.seo.ogDescription,
-          telephone: "+966570567188",
+          telephone: "+966573387178",
           areaServed: { "@type": "City", name: "الرياض" },
           address: {
             "@type": "PostalAddress",

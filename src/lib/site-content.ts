@@ -1,8 +1,8 @@
-export const PHONE_DISPLAY = "0570567188";
-export const PHONE_TEL = "tel:+966570567188";
+export const PHONE_DISPLAY = "+966 57 338 7178";
+export const PHONE_TEL = "tel:+966573387178";
 export const EMAIL_ADDRESS = "maidserviceksa@gmail.com";
 export const EMAIL_MAILTO = `mailto:${EMAIL_ADDRESS}`;
-export const WHATSAPP_NUMBER = "966570567188";
+export const WHATSAPP_NUMBER = "966573387178";
 export const WHATSAPP_URL = `https://wa.me/${WHATSAPP_NUMBER}`;
 
 /** Real WhatsApp chat deep link with a prefilled first message (no chat widget). */
@@ -113,7 +113,7 @@ export const en: Content = {
   seo: {
     title: "Maid Services Riyadh | Home & Deep Cleaning, Care — 24/7",
     description:
-      "Maid services in Riyadh: home cleaning, deep cleaning, cooking, child care and elderly care. Available 24/7. Hourly, weekly, monthly or long-term. Call 0570567188.",
+      `Maid services in Riyadh: home cleaning, deep cleaning, cooking, child care and elderly care. Available 24/7. Hourly, weekly, monthly or long-term. Call ${PHONE_DISPLAY}.`,
     ogTitle: "Reliable Maid & Home Care Services in Riyadh",
     ogDescription:
       "Cleaning, deep cleaning, cooking, child care and elderly care for Riyadh homes. Available 24/7 — hourly, weekly, monthly and long-term bookings.",
@@ -223,7 +223,7 @@ export const en: Content = {
       },
       {
         title: "Easy Booking",
-        desc: "One call to 0570567188 and we arrange the service, schedule and details with you.",
+        desc: `One call to ${PHONE_DISPLAY} and we arrange the service, schedule and details with you.`,
       },
       {
         title: "Multiple Home Services in One Place",
@@ -269,7 +269,7 @@ export const en: Content = {
     heading: "Maid & Home Services in Riyadh",
     body: [
       "We provide maid services, home cleaning, deep cleaning, cooking, child care and elderly care for homes and families in Riyadh, Saudi Arabia.",
-      "Whether you live in an apartment or a villa, our team comes to your home. Call 0570567188 at any time to check availability for your address and preferred schedule.",
+      `Whether you live in an apartment or a villa, our team comes to your home. Call ${PHONE_DISPLAY} at any time to check availability for your address and preferred schedule.`,
     ],
   },
   form: {
@@ -286,13 +286,13 @@ export const en: Content = {
     callLine: `Prefer to speak directly? Call ${PHONE_DISPLAY}`,
     choose: "Please choose",
     success:
-      "Thank you — your request has been received. We'll contact you shortly. For an immediate response, call 0570567188.",
+      `Thank you — your request has been received. We'll contact you shortly. For an immediate response, call ${PHONE_DISPLAY}.`,
     errors: {
       name: "Please enter your name.",
       phone: "Please enter a valid phone number.",
       service: "Please select a service.",
       basis: "Please select a booking basis.",
-      generic: "Something went wrong. Please try again or call 0570567188.",
+      generic: `Something went wrong. Please try again or call ${PHONE_DISPLAY}.`,
     },
   },
   phoneBlock: {
@@ -357,7 +357,7 @@ export const ar: Content = {
   seo: {
     title: "خدمات منزلية الرياض | عاملة منزلية وتنظيف منازل على مدار الساعة",
     description:
-      "خدمات منزلية في الرياض: عاملة منزلية، تنظيف منازل، تنظيف عميق، طبخ، رعاية أطفال ورعاية مسنين. متوفرون على مدار الساعة، وحجز بالساعة أو أسبوعي أو شهري. اتصل 0570567188.",
+      `خدمات منزلية في الرياض: عاملة منزلية، تنظيف منازل، تنظيف عميق، طبخ، رعاية أطفال ورعاية مسنين. متوفرون على مدار الساعة، وحجز بالساعة أو أسبوعي أو شهري. اتصل ${PHONE_DISPLAY}.`,
     ogTitle: "خدمات منزلية وعاملات منزل موثوقة في الرياض",
     ogDescription:
       "تنظيف منازل، تنظيف عميق، طبخ، رعاية أطفال ورعاية مسنين في الرياض. متوفرون على مدار الساعة · حجز بالساعة، أسبوعي، شهري أو طويل الأمد.",
@@ -467,7 +467,7 @@ export const ar: Content = {
       },
       {
         title: "حجز سهل",
-        desc: "اتصال واحد على 0570567188 ونرتب معك الخدمة والموعد والتفاصيل.",
+        desc: `اتصال واحد على ${PHONE_DISPLAY} ونرتب معك الخدمة والموعد والتفاصيل.`,
       },
       {
         title: "خدمات منزلية متعددة في مكان واحد",
@@ -510,7 +510,7 @@ export const ar: Content = {
     heading: "خدمات منزلية وعاملات منزل في الرياض",
     body: [
       "نقدم خدمات العاملة المنزلية، تنظيف المنازل، التنظيف العميق، الطبخ، رعاية الأطفال ورعاية كبار السن لمنازل وعائلات الرياض، المملكة العربية السعودية.",
-      "سواء كنت تسكن في شقة أو فيلا، يصل فريقنا إلى منزلك. اتصل على 0570567188 في أي وقت للاستفسار عن التوفر لعنوانك والموعد الذي تفضله.",
+      `سواء كنت تسكن في شقة أو فيلا، يصل فريقنا إلى منزلك. اتصل على ${PHONE_DISPLAY} في أي وقت للاستفسار عن التوفر لعنوانك والموعد الذي تفضله.`,
     ],
   },
   form: {
@@ -527,13 +527,13 @@ export const ar: Content = {
     callLine: `تفضل التحدث مباشرة؟ اتصل على ${PHONE_DISPLAY}`,
     choose: "اختر من القائمة",
     success:
-      "شكراً لك — تم استلام طلبك وسنتواصل معك قريباً. وللرد الفوري اتصل على 0570567188.",
+      `شكراً لك — تم استلام طلبك وسنتواصل معك قريباً. وللرد الفوري اتصل على ${PHONE_DISPLAY}.`,
     errors: {
       name: "الرجاء إدخال الاسم.",
       phone: "الرجاء إدخال رقم جوال صحيح.",
       service: "الرجاء اختيار الخدمة.",
       basis: "الرجاء اختيار نوع الحجز.",
-      generic: "حدث خطأ ما. حاول مرة أخرى أو اتصل على 0570567188.",
+      generic: `حدث خطأ ما. حاول مرة أخرى أو اتصل على ${PHONE_DISPLAY}.`,
     },
   },
   phoneBlock: {

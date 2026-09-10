@@ -122,3 +122,32 @@
   max-width: 76rem;
 }
 
+@keyframes sticky-contact-vibrate {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  20% {
+    transform: translateX(-3px) rotate(-1deg);
+  }
+  40% {
+    transform: translateX(3px) rotate(1deg);
+  }
+  60% {
+    transform: translateX(-2px) rotate(-1deg);
+  }
+  80% {
+    transform: translateX(2px) rotate(1deg);
+  }
+}
+
+.sticky-contact-vibrate {
+  animation: sticky-contact-vibrate 0.6s ease-in-out 1 both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sticky-contact-vibrate {
+    animation: none;
+  }
+}
+

@@ -77,6 +77,7 @@ function CallLink({
 export function LandingPage({ c }: { c: Content }) {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [stickyContactVibrating, setStickyContactVibrating] = useState(false);
   const otherPath = c.lang === "en" ? "/ar" : "/";
   const waHref = whatsappLink(c.lang);
 
@@ -84,7 +85,11 @@ export function LandingPage({ c }: { c: Content }) {
     const onScroll = () => setScrolled(window.scrollY > 24);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
+    const vibrationTimer = window.setTimeout(() => setStickyContactVibrating(true), 4000);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.clearTimeout(vibrationTimer);
+    };
   }, []);
 
   const btnPrimary =
@@ -93,7 +98,7 @@ export function LandingPage({ c }: { c: Content }) {
     "inline-flex items-center justify-center gap-2 rounded-xl border-2 border-primary bg-card px-6 py-4 text-base font-bold text-primary transition hover:bg-secondary sm:text-lg";
 
   return (
-    <div dir={c.dir} lang={c.htmlLang} className="min-h-screen overflow-x-clip bg-background pb-20 md:pb-0">
+    <div dir={c.dir} lang={c.htmlLang} className="min-h-screen overflow-x-clip bg-background">
       {/* Announcement / quick-contact strip */}
       <div className="w-full bg-primary-dark text-primary-foreground md:sticky md:top-0 md:z-50">
         <div className="section-x flex flex-wrap items-center justify-center gap-x-4 gap-y-1 py-2 text-sm font-medium md:justify-between">
@@ -505,13 +510,16 @@ export function LandingPage({ c }: { c: Content }) {
 
       {/* FAQ */}
       <section id="faq" className="py-14 sm:py-20">
-        <div className="section-x max-w-3xl">
+        <div className="section-x max-w-5xl">
           <h2 className="text-2xl font-extrabold tracking-tight text-foreground sm:text-3xl">
             {c.faq.heading}
           </h2>
-          <div className="mt-8 divide-y divide-border overflow-hidden rounded-2xl border border-border bg-card">
+          <div className="mt-8 grid items-start gap-4 sm:grid-cols-2">
             {c.faq.items.map((f) => (
-              <details key={f.q} className="group p-5">
+              <details
+                key={f.q}
+                className="group rounded-2xl border border-border bg-card p-5"
+              >
                 <summary className="cursor-pointer list-none text-base font-bold text-foreground marker:hidden">
                   {f.q}
                 </summary>
@@ -621,14 +629,14 @@ export function LandingPage({ c }: { c: Content }) {
         </div>
       </footer>
 
-      {/* Sticky mobile call bar */}
-      <div className="fixed inset-x-0 bottom-0 z-50 flex gap-2 border-t border-border bg-card p-2.5 shadow-[0_-6px_20px_rgba(0,0,0,0.08)] md:hidden">
+      {/* Sticky contact actions */}
+      <div className="fixed bottom-4 right-4 z-50 flex max-w-[calc(100vw-2rem)] gap-2 rounded-2xl p-2.5">
         <CallLink
           id="call-now-sticky"
-          className="flex flex-1 items-center justify-center gap-2 rounded-xl bg-accent px-4 py-3.5 text-base font-extrabold text-accent-foreground"
+          className={`${stickyContactVibrating ? "sticky-contact-vibrate" : ""} flex items-center justify-center gap-2 whitespace-nowrap rounded-xl bg-accent px-4 py-3.5 text-base font-extrabold text-accent-foreground`}
         >
           <Phone className="h-5 w-5" aria-hidden />
-          <span dir="ltr">{PHONE_DISPLAY}</span>
+          <span>{c.lang === "ar" ? "اتصال" : "Call"}</span>
         </CallLink>
         <a
           id="whatsapp-button-sticky"
@@ -637,9 +645,10 @@ export function LandingPage({ c }: { c: Content }) {
           rel="noopener noreferrer"
           data-conversion="whatsapp"
           aria-label={c.banner.whatsapp}
-          className="flex items-center justify-center rounded-xl bg-whatsapp px-4 py-3.5 text-primary-foreground"
+          className={`${stickyContactVibrating ? "sticky-contact-vibrate" : ""} flex items-center justify-center rounded-xl bg-whatsapp px-4 py-3.5 text-primary-foreground`}
         >
           <MessageCircle className="h-5 w-5" aria-hidden />
+          <span>{c.lang === "ar" ? "واتساب" : "WhatsApp"}</span>
         </a>
       </div>
     </div>
